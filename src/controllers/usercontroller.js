@@ -4,28 +4,35 @@ import { User } from '../models';
 import { successResponse, errorResponse } from '../helper';
 
 export const register = async (req, res) => {
+  const {
+    email, password, firstName, lastName,
+  } = req.body;
   try {
-    const {
-      email, password, firstName, lastName,
-    } = req.body;
-
     const user = await User.scope('withSecretColumns').findOne({
       where: { email },
     });
     if (user) {
-      throw new Error('User already exists with same email');
+      const err = new Error();
+      err.message = 'User already exists with same email!';
+      err.code = 409;
+      throw err; // new Error('User already exists with same email');
     }
-    const reqPass = crypto.createHash('md5').update(password).digest('hex');
-    const payload = {
-      firstName,
-      lastName,
-      email,
-      password: reqPass,
-      isVerified: false,
-      // verifyToken: uniqueId(),
-    };
+  } catch (error) {
+    return errorResponse(req, res, error.message, error.code);
+  }
+  const reqPass = crypto.createHash('md5').update(password).digest('hex');
+  const payload = {
+    firstName,
+    lastName,
+    email,
+    password: reqPass,
+    isVerified: false,
+    // verifyToken: uniqueId(),
+  };
+  try {
     const newUser = await User.create(payload);
-    return successResponse(req, res, {});
+    delete newUser.dataValues.password;
+    return successResponse(req, res, { newUser });
   } catch (error) {
     return errorResponse(req, res, error.message);
   }
@@ -75,9 +82,10 @@ export const profile = async (req, res) => {
 };
 
 export const changePassword = async (req, res) => {
+  const { userId } = req.user;
+  let user;
   try {
-    const { userId } = req.user;
-    const user = await User.scope('withSecretColumns').findOne(
+    user = await User.scope('withSecretColumns').findOne(
       { where: { id: userId } },
     );
     const reqPass = crypto
@@ -88,11 +96,15 @@ export const changePassword = async (req, res) => {
     if (reqPass !== user.password) {
       throw new Error('Old password is not correct');
     }
-    const newPass = crypto
-      .createHash('md5')
-      .update(req.body.newPassword)
-      .digest('hex');
+  } catch (error) {
+    return errorResponse(req, res, error.message);
+  }
+  const newPass = crypto
+    .createHash('md5')
+    .update(req.body.newPassword)
+    .digest('hex');
 
+  try {
     await User.update({ password: newPass }, { where: { id: user.id } });
     return successResponse(req, res, {});
   } catch (error) {
