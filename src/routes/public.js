@@ -1,21 +1,20 @@
 import express from 'express';
-import validate from 'express-validation'
+import validate from 'express-validation';
 
-import * as userController from '../controllers/usercontroller';
-import * as userValidator from '../controllers/uservalidator';
+import { login, register } from '../controllers/usercontroller';
+import { loginValidate, registerValidate } from '../controllers/uservalidator';
 
 const router = express.Router();
 
 
 router.post('/login',
-    validate(userValidator.login),
-    userController.login,
-);
+  validate(loginValidate),
+  login);
 
 router.post(
-    '/register',
-    validate(userValidator.register),
-    userController.register,
+  '/register',
+  validate(registerValidate),
+  register,
 );
 
 module.exports = router;

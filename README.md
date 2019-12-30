@@ -36,3 +36,9 @@ APP_PORT=3000           # application port
 SECRET=secret           # secret key for encrypt/decrypt JWT token
 ```
 
+### Prerequisites
+    node with latest version
+    pgAdmin (any client)
+    
+
+
