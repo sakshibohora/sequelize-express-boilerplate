@@ -1,20 +1,20 @@
 const Joi = require('joi');
 
-export const login = {
+export const loginValidate = {
   body: {
     email: Joi.string().email().required(),
-    password: Joi.string().required()
+    password: Joi.string().required(),
   },
 };
 
-export const changePassword = {
+export const changePasswordValidate = {
   body: {
     oldPassword: Joi.string().required(),
     newPassword: Joi.string().required(),
   },
 };
 
-export const register = {
+export const registerValidate = {
   body: {
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),
@@ -22,4 +22,3 @@ export const register = {
     password: Joi.string().required(),
   },
 };
-

@@ -1,11 +1,13 @@
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import { User } from '../models';
-import { successResponse, errorResponse, uniqueId } from '../helper';
+import { successResponse, errorResponse } from '../helper';
 
 export const register = async (req, res) => {
   try {
-    const { email, password, firstName, lastName } = req.body;
+    const {
+      email, password, firstName, lastName,
+    } = req.body;
 
     const user = await User.scope('withSecretColumns').findOne({
       where: { email },
@@ -27,7 +29,7 @@ export const register = async (req, res) => {
   } catch (error) {
     return errorResponse(req, res, error.message);
   }
-}
+};
 
 export const login = async (req, res) => {
   try {
@@ -67,17 +69,16 @@ export const profile = async (req, res) => {
     const { userId } = req.user;
     const user = await User.findOne({ where: { id: userId } });
     return successResponse(req, res, { user });
-
   } catch (error) {
     return errorResponse(req, res, error.message);
   }
-}
+};
 
 export const changePassword = async (req, res) => {
   try {
     const { userId } = req.user;
     const user = await User.scope('withSecretColumns').findOne(
-      { where: { id: userId } }
+      { where: { id: userId } },
     );
     const reqPass = crypto
       .createHash('md5')
@@ -92,12 +93,12 @@ export const changePassword = async (req, res) => {
       .update(req.body.newPassword)
       .digest('hex');
 
-    await User.update({ password: newPass }, { where: { id: user.id } })
-    return successResponse(req, res, {})
+    await User.update({ password: newPass }, { where: { id: user.id } });
+    return successResponse(req, res, {});
   } catch (error) {
     return errorResponse(req, res, error.message);
   }
-}
+};
 
 export const allUsers = async (req, res) => {
   try {
@@ -112,4 +113,4 @@ export const allUsers = async (req, res) => {
   } catch (error) {
     return errorResponse(req, res, error.message);
   }
-}
+};

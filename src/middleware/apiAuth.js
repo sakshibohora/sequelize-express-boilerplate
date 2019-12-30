@@ -21,8 +21,6 @@ const apiAuth = async (req, res, next) => {
     reqUser.userId = user.id;
     req.user = reqUser;
     return next();
-
-
   } catch (error) {
     return errorResponse(
       req,

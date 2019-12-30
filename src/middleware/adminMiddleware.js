@@ -1,4 +1,4 @@
-import { errorResponse } from '../helper'
+import { errorResponse } from '../helper';
 
 const adminAuth = (req, res, next) => {
   if (req.user && req.user.email && req.user.isAdmin) {
