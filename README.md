@@ -3,6 +3,12 @@ This is a boilerplate for creating APIs using express framework
 In this boilerplate user can register and login 
 User can change there password and view his/her profile, implemented with JWT token verification
 
+### Prerequisites
+    npm 5.6.0
+    node v8.10.0
+    postgres 12.1
+   
+
 ## Installation
 You can download this repo or clone this using the below command
 
@@ -35,10 +41,6 @@ APP_HOST=localhost      # application host name
 APP_PORT=3000           # application port
 SECRET=secret           # secret key for encrypt/decrypt JWT token
 ```
-
-### Prerequisites
-    node with latest version
-    pgAdmin (any client)
     
 
 
