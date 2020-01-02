@@ -7,7 +7,13 @@ import adminMiddleware from './src/middleware/adminMiddleware';
 import apiMiddleware from './src/middleware/apiAuth';
 import adminRoutes from './src/routes/adminRoutes';
 
-dotenv.config();
+if (process.env.NODE_ENVIRONMENT === 'prod') {
+  dotenv.config();
+} else if (process.env.NODE_ENVIRONMENT === 'stag') {
+  dotenv.config({ path: '.env.stg' });
+} else {
+  dotenv.config({ path: '.env.local.test' });
+}
 
 require('./src/config/sequelize');
 

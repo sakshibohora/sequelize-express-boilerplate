@@ -7,19 +7,18 @@ export const register = async (req, res) => {
   const {
     email, password, firstName, lastName,
   } = req.body;
+  let user;
   try {
-    const user = await User.scope('withSecretColumns').findOne({
+    user = await User.scope('withSecretColumns').findOne({
       where: { email },
     });
-    if (user) {
-      const err = new Error();
-      err.message = 'User already exists with same email!';
-      err.code = 409;
-      throw err; // new Error('User already exists with same email');
-    }
   } catch (error) {
     return errorResponse(req, res, error.message, error.code);
   }
+  if (user) {
+    return errorResponse(req, res, 'Email already exists', '409');
+  }
+
   const reqPass = crypto.createHash('md5').update(password).digest('hex');
   const payload = {
     firstName,
@@ -72,8 +71,8 @@ export const login = async (req, res) => {
 };
 
 export const profile = async (req, res) => {
+  const { userId } = req.user;
   try {
-    const { userId } = req.user;
     const user = await User.findOne({ where: { id: userId } });
     return successResponse(req, res, { user });
   } catch (error) {
@@ -84,20 +83,19 @@ export const profile = async (req, res) => {
 export const changePassword = async (req, res) => {
   const { userId } = req.user;
   let user;
+  const reqPass = crypto
+    .createHash('md5')
+    .update(req.body.oldPassword)
+    .digest('hex');
   try {
     user = await User.scope('withSecretColumns').findOne(
       { where: { id: userId } },
     );
-    const reqPass = crypto
-      .createHash('md5')
-      .update(req.body.oldPassword)
-      .digest('hex');
-
-    if (reqPass !== user.password) {
-      throw new Error('Old password is not correct');
-    }
   } catch (error) {
     return errorResponse(req, res, error.message);
+  }
+  if (reqPass !== user.password) {
+    throw new Error('Incorrect password');
   }
   const newPass = crypto
     .createHash('md5')
@@ -113,9 +111,9 @@ export const changePassword = async (req, res) => {
 };
 
 export const allUsers = async (req, res) => {
+  const page = req.params.page || 1;
+  const limit = 2;
   try {
-    const page = req.params.page || 1;
-    const limit = 2;
     const users = await User.scope('withSecretColumns').findAndCountAll({
       order: [['createdAt', 'DESC'], ['firstName', 'ASC']],
       offset: (page - 1) * limit,
