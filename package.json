@@ -7,7 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
     "start:prod": "NODE_ENVIRONMENT=prod nodemon server.js",
-    "start:stag": "NODE_ENVIRONMENT=stag nodemon server.js"
+    "start:stag": "NODE_ENVIRONMENT=stag nodemon server.js",
+    "createDb:stag": "NODE_ENVIRONMENT=stag nodemon dbCreate.js",
+    "dropDb:stag":"NODE_ENVIRONMENT=stag nodemon dropDb.js",
+    "migration:stag":"./node_modules/.bin/sequelize db:migrate",
+    "migration:undo:stag":"NODE_ENVIRONMENT=stag ./node_modules/.bin/sequelize db:migrate:undo:all",
+    "seed:stag":"NODE_ENVIRONMENT=stag ./node_modules/.bin/sequelize db:seed:all",
+    "seed:undo:stag":"NODE_ENVIRONMENT=stag ./node_modules/.bin/sequelize db:seed:undo"
   },
   "author": "",
   "license": "ISC",
