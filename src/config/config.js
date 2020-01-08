@@ -1,6 +1,5 @@
 const dotenv = require('dotenv');
 
-console.log('>>>>>>>>>', process.env.NODE_ENVIRONMENT);
 if (process.env.NODE_ENVIRONMENT === 'prod') {
   dotenv.config();
 } else if (process.env.NODE_ENVIRONMENT === 'stag') {
@@ -31,5 +30,4 @@ const x = {
     dialect: process.env.DB_DIALECT,
   },
 };
-console.log('>>>>>>>>>', x);
 module.exports = x;

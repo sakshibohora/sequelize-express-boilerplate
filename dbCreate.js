@@ -22,18 +22,16 @@ if (process.env.NODE_ENVIRONMENT === 'prod') {
 //     dialect: 'postgres',
 //   },
 // );
-const sequelize = new Sequelize('postgres', process.env.DB_USER, process.env.DB_PASS, {
+const sequelize = new Sequelize(process.env.DB_DIALECT, process.env.DB_USER, process.env.DB_PASS, {
   dialect: process.env.DB_DIALECT,
   host: process.env.DB_HOST,
 });
 
 const database = process.env.DB_NAME;
-console.log('TCL: database', database);
-// logger.info(`Creating database "${database}"...`);
 try {
   sequelize.query(`CREATE DATABASE "${database}"`).then(() => console.log('Database created'));
 } catch (error) {
-  console.log('TCL: dbCreate -> error', error);
+  console.log(error);
 }
 
 sequelize
@@ -43,5 +41,3 @@ sequelize
   }).catch((err) => {
     console.log('Unable to connect to db', err);
   });
-// // };
-// dbCreate();

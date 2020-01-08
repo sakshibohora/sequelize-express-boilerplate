@@ -1,8 +1,6 @@
 import dotenv from 'dotenv';
 
 const Sequelize = require('sequelize');
-// require('dotenv').config();
-
 
 if (process.env.NODE_ENVIRONMENT === 'prod') {
   dotenv.config();
@@ -21,21 +19,10 @@ const sequelize = new Sequelize(
     dialect: 'postgres',
   },
 );
-// const sequelize = new Sequelize('postgres', process.env.DB_USER, process.env.DB_PASS, {
-//   dialect: process.env.DB_DIALECT,
-//   host: process.env.DB_HOST,
-// });
-
-// const database = process.env.DB_NAME;
-// console.log('TCL: database', database);
-// // logger.info(`Creating database "${database}"...`);
-// sequelize.query(`CREATE DATABASE IF NOT EXISTS"${database}"`).then(() => console.log('Database created'));
 
 sequelize
   .authenticate()
-  .then((res) => {
-    console.log(res);
-
+  .then(() => {
     console.log('Connection has been established successfully');
   }).catch((err) => {
     console.log('Unable to connect to db', err);

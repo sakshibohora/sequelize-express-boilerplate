@@ -26,7 +26,6 @@ export const register = async (req, res) => {
     email,
     password: reqPass,
     isVerified: false,
-    // verifyToken: uniqueId(),
   };
   try {
     const newUser = await User.create(payload);
