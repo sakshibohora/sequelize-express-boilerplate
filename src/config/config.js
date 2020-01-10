@@ -15,7 +15,7 @@ const x = {
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT,
+    dialect: 'postgres',
   },
   prod: {
     username: process.env.DB_USER,
@@ -29,7 +29,7 @@ const x = {
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT,
+    dialect: 'postgres',
   },
 };
 module.exports = x;
