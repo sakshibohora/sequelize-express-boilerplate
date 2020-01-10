@@ -28,11 +28,7 @@ const sequelize = new Sequelize(process.env.DB_DIALECT, process.env.DB_USER, pro
 });
 
 const database = process.env.DB_NAME;
-try {
-  sequelize.query(`CREATE DATABASE "${database}"`).then(() => console.log('Database created'));
-} catch (error) {
-  console.log(error);
-}
+sequelize.query(`CREATE DATABASE "${database}"`).then(() => console.log('Database created'));
 
 sequelize
   .authenticate()
