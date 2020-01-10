@@ -1,5 +1,14 @@
+import dotenv from 'dotenv';
+
 const Sequelize = require('sequelize');
 
+if (process.env.NODE_ENVIRONMENT === 'prod') {
+  dotenv.config();
+} else if (process.env.NODE_ENVIRONMENT === 'stag') {
+  dotenv.config({ path: `${__dirname.split('/src')[0]}/.env.stg` });
+} else {
+  dotenv.config({ path: `${__dirname.split('/src')[0]}/.env.local.test` });
+}
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
@@ -7,7 +16,7 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    dialect: process.env.DB_DIALECT,
+    dialect: 'postgres',
   },
 );
 

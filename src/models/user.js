@@ -24,10 +24,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
-      // verifyToken: {
-      //   type: DataTypes.STRING,
-      //   defaultValue: null,
-      // },
       isVerified: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,

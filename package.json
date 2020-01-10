@@ -5,7 +5,21 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "start:prod": "NODE_ENVIRONMENT=prod nodemon server.js",
+    "start:stag": "NODE_ENVIRONMENT=stag nodemon server.js",
+    "createDb:stag": "NODE_ENVIRONMENT=stag nodemon dbCreate.js",
+    "createDb:prod": "NODE_ENVIRONMENT=prod nodemon dbCreate.js",
+    "dropDb:stag":"NODE_ENVIRONMENT=stag nodemon dropDb.js",
+    "dropDb:prod":"NODE_ENVIRONMENT=prod nodemon dropDb.js",
+    "migration:stag":"NODE_ENVIRONMENT=stag ./node_modules/.bin/sequelize db:migrate",
+    "migration:prod":"NODE_ENVIRONMENT=prod ./node_modules/.bin/sequelize db:migrate",
+    "migration:undo:stag":"NODE_ENVIRONMENT=stag ./node_modules/.bin/sequelize db:migrate:undo:all",
+    "migration:undo:prod":"NODE_ENVIRONMENT=prod ./node_modules/.bin/sequelize db:migrate:undo:all",
+    "seed:stag":"NODE_ENVIRONMENT=stag ./node_modules/.bin/sequelize db:seed:all",
+    "seed:prod":"NODE_ENVIRONMENT=prod ./node_modules/.bin/sequelize db:seed:all",
+    "seed:undo:stag":"NODE_ENVIRONMENT=stag ./node_modules/.bin/sequelize db:seed:undo",
+    "seed:undo:prod":"NODE_ENVIRONMENT=prod ./node_modules/.bin/sequelize db:seed:undo"
   },
   "author": "",
   "license": "ISC",
