@@ -4,10 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "preinstall":  "NODE_ENVIRONMENT=prod ./node_modules/.bin/sequelize db:migrate",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
-    "start:prod": "NODE_ENVIRONMENT=prod nodemon server.js",
+    "start:prod": "NODE_ENVIRONMENT=prod ./node_modules/.bin/sequelize db:migrate && NODE_ENVIRONMENT=prod nodemon server.js",
     "start:stag": "NODE_ENVIRONMENT=stag nodemon server.js",
     "createDb:stag": "NODE_ENVIRONMENT=stag nodemon dbCreate.js",
     "createDb:prod": "NODE_ENVIRONMENT=prod nodemon dbCreate.js",
