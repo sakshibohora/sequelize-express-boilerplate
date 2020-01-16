@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import publicRoutes from './src/routes/public';
 import apiRoutes from './src/routes/apiRoutes';
 import adminMiddleware from './src/middleware/adminMiddleware';
@@ -20,6 +21,9 @@ require('./src/config/sequelize');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// Set CORS policy
+app.use(cors());
 
 app.use('/pub', publicRoutes);
 app.use('/api', apiMiddleware, apiRoutes);
