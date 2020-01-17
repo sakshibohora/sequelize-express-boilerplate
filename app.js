@@ -25,18 +25,19 @@ app.use(bodyParser.json());
 //   'Access-Control-Allow-Origin': 'https://editor.swagger.io',
 // }));
 const whitelist = ['https://app.swaggerhub.com'];
-const corsOptions = {
-  origin(origin, callback) {
-    console.log('TCL: origin -> origin', origin);
-    if (whitelist.indexOf(origin) !== -1 || origin !== undefined) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+const corsOptionsDelegate = function (req, callback) {
+  console.log('ORIGIN:', req.header('Origin'));
+
+  let corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true }; // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false }; // disable CORS for this request
+  }
+  callback(null, corsOptions); // callback expects two parameters: error and options
 };
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptionsDelegate));
 
 app.use('/pub', publicRoutes);
 app.use('/api', apiMiddleware, apiRoutes);
