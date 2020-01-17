@@ -27,6 +27,13 @@ app.use(bodyParser.json());
 const whitelist = ['https://app.swaggerhub.com'];
 const corsOptionsDelegate = function (req, callback) {
   console.log('ORIGIN:', req.header('Origin'));
+  console.log('header:', req.header);
+
+  console.log('Headers:', req.headers);
+
+
+  console.log('ORIGIN2:', req.headers.host);
+
 
   let corsOptions;
   if (whitelist.indexOf(req.header('Origin')) !== -1) {
