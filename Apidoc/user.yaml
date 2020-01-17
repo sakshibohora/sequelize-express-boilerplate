@@ -1,0 +1,110 @@
+swagger: '2.0'
+info:
+  version: 0.0.0
+  title: register
+  description: A simple api to register a user
+  license:
+    name: MIT
+    url: 'http://opensource.org/licenses/MIT'
+host: polar-dusk-96471.herokuapp.com
+basePath: /
+schemes:
+  - https
+  - http
+paths:
+  /pub/register:
+    post:
+      summary: Register user
+      description: A user can register herself/himself
+      parameters:
+        - in: body
+          name: body
+          description: Created user body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+  /pub/login:
+    post:
+      summary: Login User
+      description: A user can login if he/she is registered
+      parameters:
+        - in: body
+          name: Login details
+          schema:
+            $ref: '#/definitions/Login'
+      responses:
+        '200':
+          description: OK
+  /api/me:
+    get:
+      summary: Get profile
+      description: Get profile details of user
+      parameters:
+        - in: header
+          type: string
+          name: x-token
+          required: true
+      responses:
+        '200':
+          description: OK
+  /api/changePassword:
+    post:
+      summary: change password
+      description: To change user password
+      parameters:
+        - in: header
+          type: string
+          name: x-token
+          required: true
+        - name: body
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ChangePassword'
+      responses:
+        '200':
+          description: OK
+  /api/admin/allUsers:
+    get:
+      summary: Get Users
+      description: Get all users
+      parameters:
+        - in: header
+          type: string
+          name: x-token
+          required: true
+        - name: page
+          in: query
+          type: integer
+      responses:
+        '200':
+          description: OK
+definitions:
+  User:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+  Login:
+    type: object
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+  ChangePassword:
+    type: object
+    properties:
+      oldPassword:
+        type: string
+      newPassword:
+        type: string
