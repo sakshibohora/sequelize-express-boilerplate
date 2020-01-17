@@ -7,7 +7,6 @@ if (process.env.NODE_ENVIRONMENT === 'prod') {
 } else {
   dotenv.config({ path: `${__dirname.split('/src')[0]}/.env.local.test` });
 }
-console.log('Env: ', process.env);
 
 const x = {
   development: {
@@ -15,21 +14,21 @@ const x = {
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
-    dialect: 'postgres',
+    dialect: process.env.DB_DIALECT,
   },
   prod: {
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
-    dialect: 'postgres',
+    dialect: process.env.DB_DIALECT,
   },
   stag: {
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
-    dialect: 'postgres',
+    dialect: process.env.DB_DIALECT,
   },
 };
 module.exports = x;
