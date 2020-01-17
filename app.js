@@ -25,6 +25,7 @@ app.use(bodyParser.json());
 const whitelist = ['https://editor.swagger.io'];
 const corsOptions = {
   origin(origin, callback) {
+    console.log('TCL: origin -> origin', origin);
     if (whitelist.indexOf(origin) !== -1 || origin !== undefined) {
       callback(null, true);
     } else {
