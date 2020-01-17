@@ -21,20 +21,22 @@ require('./src/config/sequelize');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors({
+  'Access-Control-Allow-Origin': 'https://editor.swagger.io',
+}));
+// const whitelist = ['https://editor.swagger.io'];
+// const corsOptions = {
+//   origin(origin, callback) {
+//     console.log('TCL: origin -> origin', origin);
+//     if (whitelist.indexOf(origin) !== -1 || origin !== undefined) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+// };
 
-const whitelist = ['https://editor.swagger.io'];
-const corsOptions = {
-  origin(origin, callback) {
-    console.log('TCL: origin -> origin', origin);
-    if (whitelist.indexOf(origin) !== -1 || origin !== undefined) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-};
-
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.use('/pub', publicRoutes);
 app.use('/api', apiMiddleware, apiRoutes);
