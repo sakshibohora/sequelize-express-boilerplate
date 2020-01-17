@@ -22,8 +22,18 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Set CORS policy
-app.use(cors());
+const whitelist = ['https://editor.swagger.io'];
+const corsOptions = {
+  origin(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || origin !== undefined) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+app.use(cors(corsOptions));
 
 app.use('/pub', publicRoutes);
 app.use('/api', apiMiddleware, apiRoutes);
