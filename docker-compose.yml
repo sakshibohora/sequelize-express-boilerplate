@@ -1,0 +1,16 @@
+version: '3.6'
+
+services:
+  db:
+    image: postgres:alpine
+#    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      - DB_NAME
+      - DB_USER
+      - DB_PASS
+    expose:
+      - ${DB_PORT}
+    volumes: 
+      - ./postgres-data:/var/lib/postgresql/data 
