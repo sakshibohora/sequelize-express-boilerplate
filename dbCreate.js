@@ -32,7 +32,7 @@ sequelize.query(`CREATE DATABASE "${database}"`)
     console.log('Database created');
     process.exit();
   })
-  .catch((error) => {
-    console.log('database "stagdb" already exists!!!');
+  .catch(() => {
+    console.log('database already exists!!!');
     process.exit();
   });
