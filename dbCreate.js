@@ -27,12 +27,12 @@ const sequelize = new Sequelize(process.env.DB_DIALECT, process.env.DB_USER, pro
 });
 
 const database = process.env.DB_NAME;
-sequelize.query(`CREATE DATABASE "${database}"`).then(() => console.log('Database created'));
-
-sequelize
-  .authenticate()
+sequelize.query(`CREATE DATABASE "${database}"`)
   .then(() => {
-    console.log('Connection has been established successfully');
-  }).catch((err) => {
-    console.log('Unable to connect to db', err);
+    console.log('Database created');
+    process.exit();
+  })
+  .catch((error) => {
+    console.log('database "stagdb" already exists!!!');
+    process.exit();
   });

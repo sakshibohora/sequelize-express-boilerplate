@@ -1,16 +1,25 @@
 version: '3.6'
 
 services:
-  db:
+  db-postgres:
     image: postgres:alpine
-#    restart: always
+    container_name: db-postgres
     ports:
-      - "5433:5432"
+      - 5433:5432
     environment:
-      - DB_NAME
-      - DB_USER
-      - DB_PASS
+      - DB_NAME:postgres
+      - DB_USER:postgres
+      - DB_PASS:Postgres
     expose:
-      - ${DB_PORT}
+      - 5432
     volumes: 
-      - ./postgres-data:/var/lib/postgresql/data 
+      - ./postgres-data:/var/lib/postgresql/data
+
+  backend:
+    image: sequelize-boilerplate
+    ports: 
+      - 3000:3000
+    volumes:
+      - /Users/radhakotecha/Desktop/sequelize-boilerplate:/sequelize-boilerplate
+    depends_on: 
+      - db-postgres
